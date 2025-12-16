@@ -85,5 +85,5 @@ This project demonstrates **state machine logic** for resource lifecycles and en
 
 5. Example endpoints are
 
-   **GET http://localhost:3000/books - Fetch all books**
-   **POST http://localhost:3000/members - Add a new member**
+   1. **GET http://localhost:3000/books - Fetch all books**
+   2. **POST http://localhost:3000/members - Add a new member**
