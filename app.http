@@ -1,0 +1,99 @@
+### ============================
+### BOOKS CRUD
+### ============================
+
+### Create Book (POST)
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+  "isbn": "9780134685991",
+  "title": "Effective Java",
+  "author": "Joshua Bloch",
+  "category": "Programming",
+  "total_copies": 5,
+  "available_copies": 5
+}
+
+### Read Books (GET)
+GET http://localhost:3000/books
+
+### Read Book by ID (GET)
+GET http://localhost:3000/books/1
+
+### Update Book (PUT)
+PUT http://localhost:3000/books/1
+Content-Type: application/json
+
+{
+  "title": "Effective Java – 3rd Edition",
+  "author": "Joshua Bloch",
+  "category": "Programming",
+  "status": "available"
+}
+
+### Delete Book (DELETE)
+DELETE http://localhost:3000/books/1
+
+
+### ============================
+### MEMBERS CRUD
+### ============================
+
+### Create Member (POST)
+POST http://localhost:3000/members
+Content-Type: application/json
+
+{
+  "name": "Kiran Kumar",
+  "email": "kiran@gmail.com",
+  "membership_number": "LIB1003"
+}
+
+### Read Members (GET)
+GET http://localhost:3000/members
+
+### Read Member by ID (GET)
+GET http://localhost:3000/members/1
+
+### Update Member (PUT)
+PUT http://localhost:3000/members/1
+Content-Type: application/json
+
+{
+  "name": "Ravi Kumar R",
+  "email": "ravi.r@gmail.com"
+}
+
+### Delete Member (DELETE)
+DELETE http://localhost:3000/members/1
+
+
+
+### ============================
+### TRANSACTIONS (BORROW / RETURN)
+### ============================
+
+### Borrow Book (CREATE Transaction)
+POST http://localhost:3000/transactions/borrow
+Content-Type: application/json
+
+{
+  "member_id": 1,
+  "book_id": 2
+}
+
+### Return Book (UPDATE Transaction)
+POST http://localhost:3000/transactions/1/return
+
+
+
+### ============================
+### FINES CRUD
+### ============================
+
+### Pay Fine
+POST http://localhost:3000/fines/1/pay
+
+### /transactions/overdue
+GET http://localhost:3000/transactions/overdue
