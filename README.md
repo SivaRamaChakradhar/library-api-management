@@ -65,10 +65,10 @@ This project demonstrates **state machine logic** for resource lifecycles and en
 |---------------|----------|-----------------------------------------------------------------------------|
 | id            | INTEGER  | PRIMARY KEY AUTOINCREMENT                                                   |
 | member_id     | INTEGER  | FOREIGN KEY → Member(id), NOT NULL                                          |
-| transaction_id| INTEGER  | FOREIGN KEY → Transactions(id), NOT NULL                                   |
+| transaction_id| INTEGER  | FOREIGN KEY → Transactions(id), NOT NULL                                    |
 | amount        | REAL     | NOT NULL                                                                    |
 | paid_at       | DATETIME | Nullable                                                                    |
----
+---------------------------------------------------------------------------------------------------------
 
 ## ⚙️ Setup Instructions
 
@@ -85,5 +85,5 @@ This project demonstrates **state machine logic** for resource lifecycles and en
 
 5. Example endpoints are
 
-   -> GET http://localhost:3000/books - Fetch all books
-   -> POST http://localhost:3000/members - Add a new member
+   **GET http://localhost:3000/books - Fetch all books**
+   **POST http://localhost:3000/members - Add a new member**
