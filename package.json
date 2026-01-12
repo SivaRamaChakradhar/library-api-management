@@ -1,0 +1,28 @@
+{
+  "name": "library-api",
+  "version": "1.0.0",
+  "description": "RESTful API for a library management system using Express.js and SQLite",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "library",
+    "express",
+    "sqlite",
+    "rest-api"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "joi": "^17.11.0",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}

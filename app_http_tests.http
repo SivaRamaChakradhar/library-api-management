@@ -1,0 +1,315 @@
+### ============================
+### HEALTH CHECK
+### ============================
+
+### Health Check
+GET http://localhost:3000/health
+
+
+### ============================
+### BOOKS CRUD
+### ============================
+
+### Create Book (POST)
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+  "isbn": "9780134685991",
+  "title": "Effective Java",
+  "author": "Joshua Bloch",
+  "category": "Programming",
+  "total_copies": 5
+}
+
+###
+
+### Create Another Book
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+  "isbn": "9780596007126",
+  "title": "Head First Design Patterns",
+  "author": "Eric Freeman",
+  "category": "Programming",
+  "total_copies": 3
+}
+
+###
+
+### Create Third Book
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+  "isbn": "9780132350884",
+  "title": "Clean Code",
+  "author": "Robert Martin",
+  "category": "Programming",
+  "total_copies": 2
+}
+
+###
+
+### Get All Books
+GET http://localhost:3000/books
+
+###
+
+### Get Available Books (NEW ENDPOINT)
+GET http://localhost:3000/books/available
+
+###
+
+### Get Book by ID
+GET http://localhost:3000/books/1
+
+###
+
+### Update Book (Note: Status updates are prevented)
+PUT http://localhost:3000/books/1
+Content-Type: application/json
+
+{
+  "title": "Effective Java – 3rd Edition",
+  "author": "Joshua Bloch"
+}
+
+###
+
+### Delete Book
+DELETE http://localhost:3000/books/3
+
+
+### ============================
+### MEMBERS CRUD
+### ============================
+
+### Create Member
+POST http://localhost:3000/members
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "membership_number": "MEM001"
+}
+
+###
+
+### Create Another Member
+POST http://localhost:3000/members
+Content-Type: application/json
+
+{
+  "name": "Jane Smith",
+  "email": "jane.smith@example.com",
+  "membership_number": "MEM002"
+}
+
+###
+
+### Get All Members
+GET http://localhost:3000/members
+
+###
+
+### Get Member by ID
+GET http://localhost:3000/members/1
+
+###
+
+### Get Books Borrowed by Member (NEW ENDPOINT)
+GET http://localhost:3000/members/1/borrowed
+
+###
+
+### Update Member
+PUT http://localhost:3000/members/1
+Content-Type: application/json
+
+{
+  "name": "John M. Doe",
+  "email": "john.m.doe@example.com"
+}
+
+###
+
+### Delete Member
+DELETE http://localhost:3000/members/2
+
+
+### ============================
+### TRANSACTIONS (BORROW / RETURN)
+### ============================
+
+### Borrow Book - Success
+POST http://localhost:3000/transactions/borrow
+Content-Type: application/json
+
+{
+  "member_id": 1,
+  "book_id": 1
+}
+
+###
+
+### Borrow Another Book
+POST http://localhost:3000/transactions/borrow
+Content-Type: application/json
+
+{
+  "member_id": 1,
+  "book_id": 2
+}
+
+###
+
+### Borrow Book - Test Limit (should work, 3rd book)
+POST http://localhost:3000/transactions/borrow
+Content-Type: application/json
+
+{
+  "member_id": 1,
+  "book_id": 3
+}
+
+###
+
+### Borrow Book - Test Limit Exceeded (should fail, 4th book)
+POST http://localhost:3000/transactions/borrow
+Content-Type: application/json
+
+{
+  "member_id": 1,
+  "book_id": 1
+}
+
+###
+
+### Get All Transactions
+GET http://localhost:3000/transactions
+
+###
+
+### Get Transaction by ID
+GET http://localhost:3000/transactions/1
+
+###
+
+### Return Book (Changed from POST to PATCH for RESTful compliance)
+PATCH http://localhost:3000/transactions/1/return
+
+###
+
+### Get Overdue Transactions
+GET http://localhost:3000/transactions/overdue
+
+
+### ============================
+### FINES
+### ============================
+
+### Get All Fines
+GET http://localhost:3000/fines
+
+###
+
+### Get Fine by ID
+GET http://localhost:3000/fines/1
+
+###
+
+### Pay Fine
+POST http://localhost:3000/fines/1/pay
+
+
+### ============================
+### TESTING SCENARIOS
+### ============================
+
+### Test Scenario 1: Member with Unpaid Fines Cannot Borrow
+# 1. Create member
+# 2. Borrow book
+# 3. Return book late (manually update due_date in DB to past)
+# 4. Try to borrow another book - should fail
+
+### Test Scenario 2: Member Suspension
+# 1. Create member
+# 2. Borrow 3 books
+# 3. Manually update due_dates to past
+# 4. Return one book - member should be suspended
+# 5. Try to borrow - should fail
+
+### Test Scenario 3: Book State Transitions
+# 1. Create book with 1 copy
+# 2. Borrow it - status should change to 'borrowed'
+# 3. Return it - status should change to 'available'
+
+### Test Scenario 4: Fine Calculation
+# 1. Borrow a book
+# 2. Manually set due_date to 5 days ago in DB
+# 3. Return book - fine should be $2.50 (5 days * $0.50)
+
+
+### ============================
+### ERROR TESTING
+### ============================
+
+### Invalid Book Creation - Missing Required Fields
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+  "title": "Test Book"
+}
+
+###
+
+### Invalid Member Creation - Invalid Email
+POST http://localhost:3000/members
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "email": "invalid-email",
+  "membership_number": "MEM999"
+}
+
+###
+
+### Book Not Found
+GET http://localhost:3000/books/99999
+
+###
+
+### Member Not Found
+GET http://localhost:3000/members/99999
+
+###
+
+### Invalid Transaction - Non-existent Book
+POST http://localhost:3000/transactions/borrow
+Content-Type: application/json
+
+{
+  "member_id": 1,
+  "book_id": 99999
+}
+
+###
+
+### Invalid Transaction - Non-existent Member
+POST http://localhost:3000/transactions/borrow
+Content-Type: application/json
+
+{
+  "member_id": 99999,
+  "book_id": 1
+}
+
+###
+
+### Invalid Fine Payment - Fine Not Found
+POST http://localhost:3000/fines/99999/pay
